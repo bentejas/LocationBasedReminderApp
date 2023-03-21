@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">GroceryBuddy</string>
+    <string name="welcomeMsg">Welcome to GroceryBuddy!</string>
 </resources>
