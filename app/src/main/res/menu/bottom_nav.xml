@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:title="Discounts"
+        android:icon="@drawable/baseline_discount_24"
+        android:id="@+id/discounts" />
+    <item
+        android:title="List"
+        android:icon="@drawable/baseline_format_list_bulleted_24"
+        android:id="@+id/list" />
+    <item
+        android:title="Map"
+        android:icon="@drawable/baseline_map_24"
+        android:id="@+id/map" />
+    <item
+        android:title="Account"
+        android:icon="@drawable/baseline_person_24"
+        android:id="@+id/account" />
+    <item
+        android:title="Settings"
+        android:icon="@drawable/baseline_settings_24"
+        android:id="@+id/settings" />
+</menu>
