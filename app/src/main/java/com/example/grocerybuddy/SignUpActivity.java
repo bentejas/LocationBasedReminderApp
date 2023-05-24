@@ -15,38 +15,82 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.grocerybuddy.databinding.ActivitySignUpBinding;
 
+import android.util.Patterns;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class SignUpActivity extends AppCompatActivity {
 
-    private AppBarConfiguration appBarConfiguration;
-    private ActivitySignUpBinding binding;
+    private EditText editTextFirstName;
+    private EditText editTextLastName;
+    private EditText editTextEmail;
+    private EditText editTextPassword;
+    private EditText editTextConfirmPassword;
+    private EditText editTextUsername;
+    private Button buttonSignUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_sign_up);
 
-        binding = ActivitySignUpBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        // Initialize views
+        editTextFirstName = findViewById(R.id.editTextFirstName);
+        editTextLastName = findViewById(R.id.editTextLastName);
+        editTextEmail = findViewById(R.id.editTextEmail);
+        editTextPassword = findViewById(R.id.editTextPassword);
+        editTextConfirmPassword = findViewById(R.id.editTextConfirmPassword);
+        editTextUsername = findViewById(R.id.editTextUsername);
+        buttonSignUp = findViewById(R.id.buttonSignUp);
 
-        setSupportActionBar(binding.toolbar);
-
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_sign_up);
-        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-
-
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_sign_up);
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
-                || super.onSupportNavigateUp();
+        buttonSignUp.setOnClickListener(view -> signUp());
     }
 
     private void signUp() {
-        // Add the sign-up functionality code here
-        // Replace this placeholder code with the actual sign-up logic
-        Snackbar.make(binding.getRoot(), "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
+        // Retrieve user input
+        String firstName = editTextFirstName.getText().toString().trim();
+        String lastName = editTextLastName.getText().toString().trim();
+        String email = editTextEmail.getText().toString().trim();
+        String password = editTextPassword.getText().toString().trim();
+        String confirmPassword = editTextConfirmPassword.getText().toString().trim();
+        String username = editTextUsername.getText().toString().trim();
+
+        // Validate inputs
+        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || username.isEmpty()) {
+            Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            Toast.makeText(this, "Invalid email address", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (!password.equals(confirmPassword)) {
+            Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Validate password constraints
+        if (password.length() < 6 || !isPasswordValid(password)) {
+            Toast.makeText(this, "Password must be at least 6 characters long and include at least one capital letter, one lowercase letter, and one special character", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Continue with sign-up process
+        // TODO: Implement your sign-up logic here
+
+        // Show success message
+        Toast.makeText(this, "Sign-up successful!", Toast.LENGTH_SHORT).show();
+    }
+
+    private boolean isPasswordValid(String password) {
+        Pattern pattern = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,}$");
+        Matcher matcher = pattern.matcher(password);
+        return matcher.matches();
     }
 }

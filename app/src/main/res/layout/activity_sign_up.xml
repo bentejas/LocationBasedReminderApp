@@ -15,6 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
+        android:layout_marginBottom="10dp"
         android:hint="First Name" />
 
     <!-- Last Name field -->
@@ -23,6 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
+        android:layout_marginBottom="10dp"
         android:hint="Last Name" />
 
     <!-- Email Address field -->
@@ -31,6 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
+        android:layout_marginBottom="10dp"
         android:hint="Email Address" />
 
     <!-- Username field -->
@@ -39,6 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
+        android:layout_marginBottom="10dp"
         android:hint="Username" />
 
     <!-- Password field -->
@@ -47,6 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
+        android:layout_marginBottom="10dp"
         android:hint="Password"
         android:inputType="textPassword" />
 
@@ -56,6 +61,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
+        android:layout_marginBottom="10dp"
         android:hint="Confirm Password"
         android:inputType="textPassword" />
 
@@ -67,6 +73,7 @@
         android:layout_height="wrap_content"
         android:background="#800000"
         android:padding="16dp"
+        android:layout_marginBottom="10dp"
         android:text="Sign Up"
         android:textColor="#FFFFFF" />
 
