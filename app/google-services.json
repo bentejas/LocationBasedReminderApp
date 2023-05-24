@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1082146602450",
+    "project_id": "locationbasedreminderapp-d9874",
+    "storage_bucket": "locationbasedreminderapp-d9874.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1082146602450:android:6ec1d733d9a0b40f755c0b",
+        "android_client_info": {
+          "package_name": "com.example.grocerybuddy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1082146602450-27p18iriucdihkruok6961o0128726oo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZkqi8HgSq3Wjth0kKkIDwuo9z1zJ7sN4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1082146602450-27p18iriucdihkruok6961o0128726oo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

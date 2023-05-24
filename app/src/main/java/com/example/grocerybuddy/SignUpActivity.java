@@ -1,19 +1,9 @@
 package com.example.grocerybuddy;
 
+import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.view.View;
-
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
-import com.example.grocerybuddy.databinding.ActivitySignUpBinding;
 
 import android.util.Patterns;
 import android.widget.Button;
@@ -22,6 +12,10 @@ import android.widget.Toast;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+// firebase import
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -32,35 +26,48 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText editTextConfirmPassword;
     private EditText editTextUsername;
     private Button buttonSignUp;
+    private Button buttonLogIn;
+
+    // firebase instance
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+        // firebase auth instance
+        mAuth = FirebaseAuth.getInstance();
+
         // Initialize views
         editTextFirstName = findViewById(R.id.editTextFirstName);
-        editTextLastName = findViewById(R.id.editTextLastName);
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
         editTextConfirmPassword = findViewById(R.id.editTextConfirmPassword);
         editTextUsername = findViewById(R.id.editTextUsername);
-        buttonSignUp = findViewById(R.id.buttonSignUp);
+        buttonSignUp = findViewById(R.id.buttonSignUpPage);
+        buttonLogIn = findViewById(R.id.buttonLogIn);
 
         buttonSignUp.setOnClickListener(view -> signUp());
+        buttonLogIn.setOnClickListener(view -> goToLogin());
+    }
+
+    private void goToLogin(){
+        Intent loginPageIntent = new Intent(SignUpActivity.this, ActivityLogin.class);
+        startActivity(loginPageIntent);
+        finish();
     }
 
     private void signUp() {
         // Retrieve user input
         String firstName = editTextFirstName.getText().toString().trim();
-        String lastName = editTextLastName.getText().toString().trim();
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
         String confirmPassword = editTextConfirmPassword.getText().toString().trim();
         String username = editTextUsername.getText().toString().trim();
 
         // Validate inputs
-        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || username.isEmpty()) {
+        if (firstName.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || username.isEmpty()) {
             Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -76,21 +83,41 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
         // Validate password constraints
-        if (password.length() < 6 || !isPasswordValid(password)) {
-            Toast.makeText(this, "Password must be at least 6 characters long and include at least one capital letter, one lowercase letter, and one special character", Toast.LENGTH_SHORT).show();
+        if (password.length() < 6) {
+            Toast.makeText(this, "Password must be at least 6 characters long", Toast.LENGTH_SHORT).show();
             return;
         }
 
         // Continue with sign-up process
-        // TODO: Implement your sign-up logic here
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        // Sign in success, display a message to the user
+                        Toast.makeText(SignUpActivity.this, "Sign-up successful!",
+                                Toast.LENGTH_SHORT).show();
 
-        // Show success message
-        Toast.makeText(this, "Sign-up successful!", Toast.LENGTH_SHORT).show();
-    }
+                        // Get the current authenticated user
+                        FirebaseUser user = mAuth.getCurrentUser();
 
-    private boolean isPasswordValid(String password) {
-        Pattern pattern = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,}$");
-        Matcher matcher = pattern.matcher(password);
-        return matcher.matches();
+                        // Create a new Intent to start UserMenuActivity
+                        Intent intent = new Intent(SignUpActivity.this, UserMenu.class);
+
+                        // Pass the user's email as an extra
+                        intent.putExtra("userEmail", user.getEmail());
+
+                        // You could pass other user details here as needed
+
+                        // Start the UserMenuActivity
+                        startActivity(intent);
+
+                        // Optionally, if you want to finish the SignUpActivity
+                        finish();
+
+                    } else {
+                        // If sign in fails, display a message to the user
+                        Toast.makeText(SignUpActivity.this, "Sign-up failed.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }
