@@ -30,6 +30,8 @@ public class ActivityLogin extends AppCompatActivity {
     private AppBarConfiguration appBarConfiguration;
     private ActivityLoginBinding binding;
     private Button LogInBtn;
+
+    private Button SignUpBtn;
     private EditText userEmail;
     private EditText userPassword;
     private FirebaseAuth mAuth;
@@ -40,14 +42,14 @@ public class ActivityLogin extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_activity_login);
-        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-
         LogInBtn = findViewById(R.id.buttonLogin);
         userEmail = findViewById(R.id.editTextUsername);
         userPassword = findViewById(R.id.editTextPassword);
+
+        SignUpBtn = findViewById(R.id.buttonSignUp);
+
+        mAuth = FirebaseAuth.getInstance();
+
         LogInBtn.setOnClickListener(view -> userLogin());
 
     }
@@ -83,7 +85,10 @@ public class ActivityLogin extends AppCompatActivity {
             userPassword.requestFocus();
             return;
         }
-
+        if(email == null || password == null){
+            System.out.println("FLAG");
+            return;
+        }
         /*/
         validating user login task using fire base authenticator
          */

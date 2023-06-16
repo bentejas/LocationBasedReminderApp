@@ -6,29 +6,23 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.example.grocerybuddy.databinding.ActivityUserMenuBinding;
 
 public class UserMenu extends AppCompatActivity {
 
-    ActivityUserMenuBinding binding;
-    TextView welcomeMsg;
+    private ActivityUserMenuBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        replaceFragment(new MapFragment());
         binding = ActivityUserMenuBinding.inflate(getLayoutInflater());
-        binding.bottomNavigationView.getMenu().findItem(R.id.map).setChecked(true);
         setContentView(binding.getRoot());
 
-        //setContentView(R.layout.activity_user_menu);
-        welcomeMsg = findViewById(R.id.welcomeMessage);
+        replaceFragment(new MapFragment());
+        binding.bottomNavigationView.getMenu().findItem(R.id.map).setChecked(true);
 
-        binding.bottomNavigationView.setOnItemSelectedListener(item -> {
-
+        binding.bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.discounts:
                     replaceFragment(new DiscountFragment());
@@ -45,13 +39,11 @@ public class UserMenu extends AppCompatActivity {
                 case R.id.settings:
                     replaceFragment(new SettingsFragment());
                     break;
-
-
             }
-
             return true;
         });
     }
+
     private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
