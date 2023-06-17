@@ -52,6 +52,13 @@ public class ActivityLogin extends AppCompatActivity {
 
         LogInBtn.setOnClickListener(view -> userLogin());
 
+        SignUpBtn.setOnClickListener(view -> launchRegistration());
+
+    }
+
+    private void launchRegistration(){
+        Intent registerIntent = new Intent(ActivityLogin.this, SignUpActivity.class);
+        startActivity(registerIntent);
     }
 
     private void userLogin() {
